@@ -114,21 +114,6 @@ M.__register_autostart = function()
     end
 end
 
---- Sets the plugin colors after the user colorscheme is loaded
--- @return nil
-M.__register_colorscheme_initialization = function()
-    local colorscheme = vim.api.nvim_exec("colorscheme", true)
-
-    -- If user has no colorscheme(colorscheme is "default"), set the colors manually
-    if colorscheme == "default" then
-        M.__register_highlight_groups()
-
-        return
-    end
-
-    register_autocmd("ColorScheme", "lua require('package-info.config').__register_highlight_groups()")
-end
-
 --- Register all highlight groups
 -- @return nil
 M.__register_highlight_groups = function()
@@ -147,6 +132,21 @@ M.__register_highlight_groups = function()
 
     register_highlight_group(constants.HIGHLIGHT_GROUPS.outdated, colors.outdated)
     register_highlight_group(constants.HIGHLIGHT_GROUPS.up_to_date, colors.up_to_date)
+end
+
+--- Sets the plugin colors after the user colorscheme is loaded
+-- @return nil
+M.__register_colorscheme_initialization = function()
+    local colorscheme = vim.api.nvim_exec("colorscheme", true)
+
+    -- If user has no colorscheme(colorscheme is "default"), set the colors manually
+    if colorscheme == "default" then
+        M.__register_highlight_groups()
+
+        return
+    end
+
+    register_autocmd("ColorScheme", "lua require('package-info.config').__register_highlight_groups()")
 end
 
 --- Register all plugin commands
